@@ -1,0 +1,29 @@
+@page "/"
+@inject BlazorMVVMApp.Data.TodoService TodoService
+
+<h3>Todo List</h3>
+<input @bind="newTask" placeholder="Enter a task" />
+<button class="btn btn-primary" @onclick="AddTask">Add</button>
+
+<ul class="mt-3">
+    @foreach (var item in TodoService.Items)
+    {
+        <li>
+            <input type="checkbox" @bind="item.IsDone" />
+            <span style="@(item.IsDone ? "text-decoration: line-through;" : "")">@item.Title</span>
+        </li>
+    }
+</ul>
+
+@code {
+    private string newTask = string.Empty;
+
+    void AddTask()
+    {
+        if (!string.IsNullOrWhiteSpace(newTask))
+        {
+            TodoService.AddItem(newTask);
+            newTask = string.Empty;
+        }
+    }
+}

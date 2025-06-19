@@ -1,5 +1,13 @@
-FROM mcr.microsoft.com/dotnet/framework/wpf:4.8
-COPY . /app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-RUN msbuild TodoApp.sln
-CMD ["TodoApp.exe"]
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet publish "BlazorMVVMApp.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "BlazorMVVMApp.dll"]
