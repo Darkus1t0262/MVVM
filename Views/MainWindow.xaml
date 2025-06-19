@@ -1,0 +1,13 @@
+<Window ...>
+    <StackPanel>
+        <TextBox x:Name="TaskInput"/>
+        <Button Content="Add" Click="OnAdd"/>
+        <ListBox ItemsSource="{Binding Items}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Task}" IsChecked="{Binding IsDone}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+</Window>
